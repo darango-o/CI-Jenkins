@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    environment{
+        ENV = "Arroz"
+    }
+  
+    stages {
+        stage('Git'){
+            steps {
+                cleanWs()
+                bat 'git clone https://github.com/darango-o/CI-Jenkins'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                bat 'javac -d . CI-Jenkins/src/Main.java'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                bat 'java -cp . Main ${ENV}'
+            }
+        }
+    }
+}
